@@ -57,9 +57,13 @@ const PostReview = () => {
   });
 
   const json = await res.json();
+  //if (json.status === 200) {
+  //    window.location.href = window.location.origin+"/dealer/"+id;
+  //}
   if (json.status === 200) {
-      window.location.href = window.location.origin+"/dealer/"+id;
-  }
+    console.log("Review saved, redirecting...");
+    window.location.href = `/dealer/${id}`;
+}
 
   }
   const get_dealer = async ()=>{
