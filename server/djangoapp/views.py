@@ -9,19 +9,19 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import CarMake, CarModel
 from .populate import initiate
 from .restapis import (
-analyze_review_sentiments,
-get_request,
-post_review,
+    analyze_review_sentiments,
+    get_request,
+    post_review,
 )
 
 logger = logging.getLogger(__name__)
+
 
 @csrf_exempt
 def login_user(request):
     data = json.loads(request.body)
     username = data["userName"]
     password = data["password"]
-
 
     user = authenticate(
         username=username,
@@ -45,10 +45,10 @@ def logout_request(request):
     data = {"userName": ""}
     return JsonResponse(data)
 
+
 @csrf_exempt
 def registration(request):
     data = json.loads(request.body)
-
 
     username = data["userName"]
     password = data["password"]
@@ -93,7 +93,6 @@ def registration(request):
 def get_cars(request):
     count = CarMake.objects.count()
 
-
     if count == 0:
         initiate()
 
@@ -117,7 +116,6 @@ def get_dealerships(request, state="All"):
     else:
         endpoint = "/fetchDealers/" + state
 
-
     dealerships = get_request(endpoint)
 
     return JsonResponse(
@@ -132,7 +130,6 @@ def get_dealer_reviews(request, dealer_id):
     if dealer_id:
         endpoint = "/fetchReviews/dealer/" + str(dealer_id)
         reviews = get_request(endpoint)
-
 
         for review_detail in reviews:
             response = analyze_review_sentiments(
@@ -164,7 +161,6 @@ def get_dealer(request, dealer_id):
         endpoint = "/fetchDealer/" + str(dealer_id)
         dealer = get_request(endpoint)
 
-
         return JsonResponse(
             {
                 "status": 200,
@@ -185,7 +181,6 @@ def get_dealer_details(request, dealer_id):
         endpoint = "/fetchDealer/" + str(dealer_id)
         dealership = get_request(endpoint)
 
-
         return JsonResponse(
             {
                 "status": 200,
@@ -204,7 +199,6 @@ def get_dealer_details(request, dealer_id):
 def add_review(request):
     if not request.user.is_anonymous:
         data = json.loads(request.body)
-
 
         try:
             post_review(data)
@@ -232,4 +226,3 @@ def add_review(request):
             "message": "Unauthorized",
         }
     )
-
