@@ -24,7 +24,7 @@ def initiate():
     },
     ]
 
-    ```
+    
     car_make_instances = []
 
     for data in car_make_data:
@@ -136,4 +136,4 @@ def initiate():
             type=data["type"],
             year=data["year"],
         )
-```
+

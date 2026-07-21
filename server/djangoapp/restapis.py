@@ -17,52 +17,52 @@ default="http://localhost:5050/",
 )
 
 def get_request(endpoint, **kwargs):
-params = ""
+    params = ""
 
-```
-if kwargs:
-    for key, value in kwargs.items():
-        params += f"{key}={value}&"
+    
+    if kwargs:
+        for key, value in kwargs.items():
+            params += f"{key}={value}&"
 
-request_url = backend_url + endpoint + "?" + params
+            request_url = backend_url + endpoint + "?" + params
 
-print("GET from {}".format(request_url))
+            print("GET from {}".format(request_url))
 
-try:
-    response = requests.get(request_url)
-    return response.json()
-except requests.RequestException:
-    print("Network exception occurred")
-```
+            try:
+                response = requests.get(request_url)
+                return response.json()
+            except requests.RequestException:
+                print("Network exception occurred")
+
 
 def analyze_review_sentiments(text):
-request_url = sentiment_analyzer_url + "analyze/" + text
+    request_url = sentiment_analyzer_url + "analyze/" + text
 
-```
-try:
-    response = requests.get(request_url)
-    return response.json()
-except requests.RequestException as err:
-    print(f"Unexpected {err=}, {type(err)=}")
-    print("Network exception occurred")
-```
+
+    try:
+        response = requests.get(request_url)
+        return response.json()
+    except requests.RequestException as err:
+        print(f"Unexpected {err=}, {type(err)=}")
+        print("Network exception occurred")
+
 
 def post_review(data_dict):
-request_url = backend_url + "/insert_review"
+    request_url = backend_url + "/insert_review"
 
-```
-try:
-    response = requests.post(
-        request_url,
-        data=json.dumps(data_dict),
-        headers={
-            "Content-Type": "application/json",
-        },
-    )
-    print(response.json())
-    return response.json()
 
-except requests.RequestException as err:
-    print(err)
-    print("Network exception occurred")
-```
+    try:
+        response = requests.post(
+            request_url,
+            data=json.dumps(data_dict),
+            headers={
+                "Content-Type": "application/json",
+            },
+        )
+        print(response.json())
+        return response.json()
+
+    except requests.RequestException as err:
+        print(err)
+        print("Network exception occurred")
+
